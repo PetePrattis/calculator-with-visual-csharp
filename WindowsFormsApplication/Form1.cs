@@ -3,7 +3,10 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Linq;
 
-//Εργασία του μαθητή Παναγιώτη Πράττη Π15120
+/*
+Author Παναγιώτης Πράττης/Panagiotis Prattis
+*/
+
 namespace WindowsFormsApplication
 {
 
@@ -11,14 +14,13 @@ namespace WindowsFormsApplication
 public partial class Form1 : Form
     {
         
-        //εισάγω random μεταβλητή από την μέθοδο random για να το 
-        //χρησιμοποιήσω αργότερα για να καλέσω τυχαία χρώματα
+        // enter a random variable from the random method to
+        // use later to call random colors
         private Random rnd = new Random();
 
-        double a;//ο αριθμός του 1ου textbox
-        double b;//ο αριθμός του 2ου textbox
-        double c;//ο αριθμός του 3ου textbox ->το αποτέλεσμα
-
+        double a;//the number of the first textbox
+        double b;//the number of the second textbox
+        double c;//the number of the third textbox -> the result
 
         public Form1()
         {
@@ -26,25 +28,25 @@ public partial class Form1 : Form
         }
 
 
-        private void textBox1_TextChanged(object sender, EventArgs e)//το 1ο πεδίο κειμένου
+        private void textBox1_TextChanged(object sender, EventArgs e)// the 1st text field
         {
-            //κάθε φορά που ο χρήστης πατάει τελεία "." θα μετατρέπεται σε κόμμα "," 
-            //ώστε να γίνονται οι πράξεις σωστά διότι: 1.2 = 12 (δεν διαβάζεται η τελεία)
+            // every time the user presses a dot "." will be converted to a "," comma
+            // to get things done correctly because: 1.2 = 12 (dot not read)
 
             textBox1.Text= textBox1.Text.Replace(".", ",");
-            textBox1.Focus();//για να είναι ο κέρσορας πάντα στο τέλος
+            textBox1.Focus();// to be the cursor always at the end
             textBox1.SelectionStart = textBox1.Text.Length;
 
             double parsedValue;
-            //έλεγχος αν γίνεται μετατροπή του κειμένου στο textbox σε αριθμό ώστε να γίνονται οι πράξεις
+            // check if the text in the textbox is converted to a number so that the actions can be done
             if (Double.TryParse(textBox1.Text, out parsedValue) == false && textBox1.Text.Length != 0)
             {
-                //συγκεκριμένα το πεδίο να μην δέχεται γράμματα και σύμβολα πέρα απο "." και ","
-                //για να λειτουργεί σωστά επιτρέπω και το σύμβολο "-" για αρνητικούς αριθμούς 
-                if (textBox1.Text != "-" && textBox1.Text.Length != 0)//το "-" επιτρέπεται μόνο στην αρχή
+                // specifically the field should not accept letters and symbols other than "." and ","
+                // to allow it to work properly let the "-" symbol for negative numbers
+                if (textBox1.Text != "-" && textBox1.Text.Length != 0)//the symbol "-" allowed only first
                 {
                     MessageBox.Show("Please enter only numbers!");
-                    if (textBox1.Text.Length != 0)//και ο λάθος χαρακτήρας αφαιρείται
+                    if (textBox1.Text.Length != 0)//wrong characters are removed
                     {
                         textBox1.Text = textBox1.Text.Remove(textBox1.Text.Length - 1);
                         textBox1.Focus();
@@ -55,12 +57,12 @@ public partial class Form1 : Form
             
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)//η λίστα με τις μαθηματικές πράξεις
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)//the list of mathematical operations
         {
             
             string operation = (string)comboBox1.SelectedItem;
 
-             if (operation == "+")//εδώ εμφαωίζω στην ετικέτα την πράξη που διάλεξε ο χρήστης
+             if (operation == "+")// here I display the action the user chose
                 label1.Text = "+";
             else if (operation == "-")
                 label1.Text = "-";
@@ -77,7 +79,7 @@ public partial class Form1 : Form
             else if (operation == "√")
                 label1.Text = "√";
             
-            if (operation == "!" || operation == "√")//αν επιλεγεί η πράξη παραγοντικό ή τετραγωνική ρίζα κλειδώνω το 2ο πεδίο κειμένου
+            if (operation == "!" || operation == "√")// if the operation is factorial or square root I lock the 2nd text field
             {
                 textBox2.Enabled = false;
             }
@@ -87,8 +89,8 @@ public partial class Form1 : Form
 
         }
 
-        //η ετικέτα θα δείχνει το σύμβολο της επιλεγμένης πράξης
-        //και με το πάτημα της ο χρήστης θα λαμβάνει πληροφορίες για την πράξη
+        // the label will show the symbol of the selected operation
+        // and when pressed the user will receive information about the action
         private void label1_Click(object sender, EventArgs e)
         {
             if (label1.Text == null)
@@ -132,9 +134,9 @@ public partial class Form1 : Form
             }
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)//το 2ο πεδίο κειμένου
+        private void textBox2_TextChanged(object sender, EventArgs e)// the 2nd text field
         {
-            //τα ίδια χαρακτηριστικά με το 1ο πεδίο κειμένου
+            // same attributes as 1st text field
             textBox2.Text = textBox2.Text.Replace(".", ",");
             textBox2.Focus();
             textBox2.SelectionStart = textBox2.Text.Length;
@@ -159,12 +161,12 @@ public partial class Form1 : Form
         private void button1_Click(object sender, EventArgs e)//το κουμπί υπολογισμού
         {
             
-            long x;//θα το χρησιμοποιήσω για το παραγοντικό
+            long x;//for factorial
             long parsedInt;
-            bool text1 = false;//θα το χρησιμοποιήσω για να δω αν υπαρχει αριθμός στο 1ο πεδίο 
-            bool text2 = false;//στο 2ο πεδίο
-            bool op = false;//αν έχει επιλεγεί μαθηματική πράξη
-            bool texts;//αν όλα ειναι εντάξει ώστε να γίνει ο υπολογισμός θα είναι true
+            bool text1 = false;//to check if there is number at first text field
+            bool text2 = false;//for the 2nd textfield
+            bool op = false;//to check if an operetion is selected
+            bool texts;//if everything is ok it is true
             string operation = (string)comboBox1.SelectedItem;
 
             if (textBox1.Text.Length == 0)
@@ -187,28 +189,28 @@ public partial class Form1 : Form
 
             if (texts == true)
             {
-                //αν όλα είναι εντάξει με τα πεδία που πρέπει να συμπληρώσει ο χρήστης
-                //θα ξεκινήσει η διαδικασία διόρθωσης του input του χρήστη
+                // if all is ok with the fields the user has to fill
+                // will begin the process of correcting the user's input
 
-                if (textBox1.Text.EndsWith(","))//αν τελειώνει ο αριθμός με "," το διαγράφω
+                if (textBox1.Text.EndsWith(","))// if the number ends with "," I delete it
                     textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
 
                 if (textBox2.Text.EndsWith(","))
                     textBox2.Text = textBox2.Text.Substring(0, textBox2.Text.Length - 1);
 
-                if (double.Parse(textBox1.Text) == 0)//αν ο αριθμός είναι μηδέν αλλά ο χρήστης το έχει δώσει αλλιώς
-                    //π.χ. 00,0 -> 0 για να φαίνται καλύτερα στο χρήστη
+                if (double.Parse(textBox1.Text) == 0)// if the number is zero but the user has given it otherwise
+                    //example 00,0 -> 0 to make it look better
                     textBox1.Text = "0";
                 if(operation != "!" && operation != "√")
                     if (double.Parse(textBox2.Text) == 0)
                         textBox2.Text = "0";
 
 
-                //αν ο αριθμός που έδωσε ο χρήστης έχει περιττά μηδενικά θα τα αφαιρέσω
+                // if the number given by the user is redundant I will subtract them
                 if (textBox1.Text.StartsWith("0") && !textBox1.Text.StartsWith("0,") && textBox1.Text.Length != 1)
                 {
-                    //αν ο αριθμός ξεκινάει με μηδενικά τα διαγράφω
-                    //π.χ. 000002,1 -> 2,1
+                    //if the number starts with zero I delete them
+                    //example 000002,1 -> 2,1
                     bool zero11 = false;
                     while (zero11 == false)
                     {
@@ -233,8 +235,8 @@ public partial class Form1 : Form
 
                 if (textBox1.Text.StartsWith("-0") && !textBox1.Text.StartsWith("-0,") && textBox1.Text.Length != 2)
                 {
-                    //αν ένας αρνητικός αριθμός έχει περιττά μηδενικά στην αρχή τα διαγράφω
-                    //π.χ. -00099 -> -99
+                    // if a negative number has unnecessary zeros in the beginning I delete them
+                    //example -00099 -> -99
                     bool zero12 = false;
                     while (zero12 == false)
                     {
@@ -261,10 +263,10 @@ public partial class Form1 : Form
                     }
                 }
 
-                //εδώ διαγράφω τα περιττά μηδενικά σε έναν δεκαδικό αριθμό
+                // here I delete unnecessary zeros in a decimal number
                 if (textBox1.Text.EndsWith("0") && textBox1.Text.ToLower().Contains(','))
                 {
-                    //αν περιέχει κόμμα και στο τέλος υπάρχουν μηδενικά τα διαγράφω
+                    // if it contains a comma and at the end there are zero delete
                     bool zero1 = false;
                     while (zero1 == false)
                     {
@@ -272,7 +274,7 @@ public partial class Form1 : Form
                             textBox1.Text = textBox1.Text.Remove(textBox1.Text.Length - 1);
                         else if (textBox1.Text.EndsWith(",0"))
                         {
-                            //αν υπάρχει και ένα κόμμα στο τέλος το διαγράφω επίσης
+                            // if there is a comma at the end I delete it too
                             textBox1.Text = textBox1.Text.Remove(textBox1.Text.Length - 2);
                             zero1 = true;
                         }
@@ -300,9 +302,9 @@ public partial class Form1 : Form
             }
             
 
-            if (texts == true)//αν όλα τα πεδία είναι συμπληρωμένα και σωστά κάνω τις πράξεις
+            if (texts == true)// if all fields are complete and I do the actions correctly
             {
-                //με το πάτημα του κουμπιού "=" αλλάζει κα ιτο χρώμα της φόρμας
+                // Pressing the "=" button also changes the color of the form
                 Color randomColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
                 BackColor = randomColor;
             }
@@ -338,7 +340,7 @@ public partial class Form1 : Form
 
             }
 
-            else if (operation == "/")//στην διαίρεση ελέγχω κιόλας να μην είναι το 2ο πεδίο 0
+            else if (operation == "/")// in the division I check the 2nd field not to be 0
             {
                 
                 a = double.Parse(textBox1.Text);
@@ -357,7 +359,7 @@ public partial class Form1 : Form
 
             }
 
-            else if (operation == "%")//ξανά έλεγχος να μην είναι 0 το 2ο πεδίο για το υπόλοιπο
+            else if (operation == "%")// check again not to be the 2nd field for the rest
             {
                 
                 a = double.Parse(textBox1.Text);
@@ -395,10 +397,10 @@ public partial class Form1 : Form
 
                 if (Int64.TryParse(textBox1.Text, out parsedInt) == true && Convert.ToInt64(textBox1.Text) >= 0)
                 {
-                   //έλεγχος αν ο αριθμός στο 1ο πεδίο είναι φυσικός
+                   // check if the number in the 1st field is natural
                     x = Convert.ToInt64(textBox1.Text);
-                    double f = 1;//υπολογισμός του παραγοντικού με for loop ως πραγματικός αριθμός
-                    //για να έχω μεγαλύτερο εύρος αποτελεσμάτων
+                    double f = 1;// calculate the factorial with for loop as the real number
+                    // to get a wider range of results
                     for (double i = 1; i <= a; i++)
                     {
                         f *= i;
@@ -420,7 +422,7 @@ public partial class Form1 : Form
                 a = double.Parse(textBox1.Text);
                 if (a >= 0)
                 {
-                    //έλεγχος αν ο αριθμός στο 1ο πεδίο είναι θετικός 
+                    // check if the number in the 1st field is positive
 
                     c = Math.Sqrt(a);
                     textBox2.Text = null;
@@ -442,32 +444,32 @@ public partial class Form1 : Form
 
 
 
-        private void textBox3_TextChanged(object sender, EventArgs e)//το πεδίο textbox του αποτελέσματος
+        private void textBox3_TextChanged(object sender, EventArgs e)// the textbox of the result
         {
-            textBox3.TextAlign = HorizontalAlignment.Center;//το κείμενο να έιναι στο κέντρο
-            textBox3.Font = new Font(textBox3.Font, FontStyle.Bold);//το κείμενο να έχει Bold style
+            textBox3.TextAlign = HorizontalAlignment.Center;// text to be centered
+            textBox3.Font = new Font(textBox3.Font, FontStyle.Bold);// Bold style text
         }
 
 
 
-        private void button2_Click(object sender, EventArgs e)//το κουμπί εξόδου από την φόρμα
+        private void button2_Click(object sender, EventArgs e)// the exit form button
         {
             Close();
         }
 
-        private void button3_Click(object sender, EventArgs e)//το κουμπί "clear all"
+        private void button3_Click(object sender, EventArgs e)// the "clear all" button
         {
             
-             textBox1.Text = null;//διαγράφει οτι κείμενο υπάρχει μέσα στο 1ο πεδίο κειμένου
-             textBox2.Text = null;//και στο 2ο πεδίο κειμένου
-             textBox3.Text = null;//και στο 3ο πεδίο του αποτελέσματος
-             comboBox1.SelectedItem = null;//και αναιρεί την επιλογή της μαθηματικής πράξης του χρήστη
+             textBox1.Text = null;// deletes text within the 1st text field
+             textBox2.Text = null;// and in the 2nd text field
+             textBox3.Text = null;// and in the 3rd field of the result
+             comboBox1.SelectedItem = null;// and disables the user's choice of mathematical action
              label1.Text = null;
-             BackColor = SystemColors.Control;//το χρώμα της φόρμας γίνεται όπως στην αρχή
-             textBox1.Focus();//ο κέρσορας πηγαίνει στο 1ο πεδίο κειμένου
+             BackColor = SystemColors.Control;// the color of the form is as in the beginning
+             textBox1.Focus();// the cursor goes to the 1st text field
         }
 
-        private void button4_Click(object sender, EventArgs e)//το κουμπί ελαχιστοποίηση
+        private void button4_Click(object sender, EventArgs e)// the minimize button
         {
             WindowState = FormWindowState.Minimized;
         }
@@ -475,14 +477,14 @@ public partial class Form1 : Form
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            button1.Font = new Font(button1.Font, FontStyle.Bold);//Bold style για το κουμπί "="
-            label1.Font = new Font(label1.Font, FontStyle.Bold);//Bold style για το label
-            ControlBox = false;//αφαίρεση του control box ώστε η έξοδος και η ελαχιστοποίηση να είναι μόνο εφικτά απο τα κουμπιά
-            MaximizeBox = false;//η μεγένθυνση και η σμίκρυνση να μην είναι δυνατές μέσω του ποντικιού από τα όρια της φόρμας
+            button1.Font = new Font(button1.Font, FontStyle.Bold);// Bold style for "=" button
+            label1.Font = new Font(label1.Font, FontStyle.Bold);// Bold style for the label
+            ControlBox = false;// remove the control box so that output and minimization are only possible from the buttons
+            MaximizeBox = false;// zoom in and out of the mouse will not be possible by form boundaries
             MinimizeBox = false;
-            label1.TextAlign = ContentAlignment.MiddleCenter;//το κείμενο να έιναι στο κέντρο
+            label1.TextAlign = ContentAlignment.MiddleCenter;// text to be centered
             label1.BackColor = System.Drawing.Color.White;
-            FormBorderStyle = FormBorderStyle.FixedSingle;//δεν υπάρχουν όρια στην φόρμα
+            FormBorderStyle = FormBorderStyle.FixedSingle;// no boundaries in the form
         }
 
         
