@@ -8,7 +8,7 @@ and is one of a few C# programms neccessary to pass the class_
 
 > #### Description of project
 >
->>A windows form application implementing a basic calculator.
+>>A windows forms application implementing a basic calculator.
 
 > #### About this project
 >
